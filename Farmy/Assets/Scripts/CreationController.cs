@@ -6,38 +6,37 @@ public class CreationController : MonoBehaviour
 {
     public GameObject Parent;
     public GameObject Mud;
-    private Camera cam;
     private int MudNumber = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;
+
     }
 
     public bool OnOverCheck(){
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            GameObject item = hit.collider.gameObject;
+        RaycastHit hit = GetHit();
+        GameObject item = hit.collider.gameObject;
+        if(ClickedItem != null){
             if(item.tag == "Selectable"){
-                if(item.GetComponent<PlantController>()){
-                    item.GetComponent<PlantController>().SetOver(true);
-                }   
+                item.GetComponent<PlantController>().SetOver(true);
+                return true;  
             }
+            
         }
         return false;
     }
 
     public Vector3 OnClickCheck(){
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) ){
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                return hit.point;
-            }           
+            RaycastHit hit = GetHit();
+            GameObject item = hit.collider.gameObject;
+            if(ClickedItem != null){
+                if(ClickedItem.tag == "Selectable"){
+                    ClickedItem.GetComponent<PlantController>().SetClicked(true);
+                }
+            }
+            return ClickedItem.;
         }
         return Vector3.zero;
     }
@@ -48,7 +47,21 @@ public class CreationController : MonoBehaviour
         GameObject NewMud = Instantiate(Mud, SpawnPoint, Quaternion.Euler(0f, 90f, 0f),Parent.transform);
         NewMud.name = "Mud_" + MudNumber++.ToString();
 
+        //Asignarle un ID
+        NewMud.GetComponentInChildren<MudController>().data.ID = MudNumber;
+
         //Hacer que se vea el objeto
         NewMud.GetComponentInChildren<MeshRenderer>().enabled = true;
+    }
+
+    /************** PRIVATE FUNCTIONS *****************/
+    private RaycastHit GetHit(){
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            return hit;
+        }
+        return null;       
     }
 }

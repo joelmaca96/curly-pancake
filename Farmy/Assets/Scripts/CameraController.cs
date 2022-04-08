@@ -5,17 +5,11 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float Translationspeed = 20;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         CheckTranslation();
-
         CheckZoom();
     }
 

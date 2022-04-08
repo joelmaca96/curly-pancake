@@ -17,28 +17,32 @@ public class SceneController : MonoBehaviour
 
     void Update(){
 
-        //Comprobar si se ha pulsado
-        Vector3 ClickPose = CreationController.OnClickCheck();
-        
-        if(Vector3.zero != ClickPose){
-            //si se ha pulsado, comprobar si está dentro de la rejilla
-            //Y si no hay nada de antes
-            Vector3 CreationPose = Mudgrid.AdaptToGrid(ClickPose);
-            
-            if(CreationPose != Vector3.zero){
-
-                //Crear el barro si no hay nada
-                //Comprobar si hay algo de antes
-                if(Mudgrid.GetGridArrayValue(CreationPose) == 0){
-                    CreationController.MudSpawn(CreationPose);
-                    Mudgrid.SetGridArrayValue(CreationPose, 1);
-                }
-            }
+        //Comprobar si estamos apuntando a un objeto seleccionable
+        if(CreationController.OnOverCheck()){
 
         }
+
+        //Sino, comprobar si estamos creando algo nuevo
         else{
-            CreationController.OnOverCheck();
-        }   
+            //Comprobar si se ha pulsado
+            Vector3 ClickPose = CreationController.OnClickCheck();
+            
+            if(Vector3.zero != ClickPose){
+                //si se ha pulsado, comprobar si está dentro de la rejilla
+                //Y si no hay nada de antes
+                Vector3 CreationPose = Mudgrid.AdaptToGrid(ClickPose);
+                
+                if(CreationPose != Vector3.zero){
+
+                    //Crear el barro si no hay nada
+                    //Comprobar si hay algo de antes
+                    if(Mudgrid.GetGridArrayValue(CreationPose) == 0){
+                        CreationController.MudSpawn(CreationPose);
+                        Mudgrid.SetGridArrayValue(CreationPose, 1);
+                    }
+                }
+            }  
+        }
     }
 
 }
