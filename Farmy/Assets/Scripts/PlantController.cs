@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-struct PlantData
+public struct PlantData
 {
-    int ID = 0;
-    int type = 0;
-    int health = 0;
-    int growth = 0;
+    int ID;
+    int type;
+    int health;
+    int growth;
 }
 
 public class PlantController : MonoBehaviour

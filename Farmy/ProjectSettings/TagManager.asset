@@ -7,6 +7,8 @@ TagManager:
   - Mud
   - planta
   - Selectable
+  - Drawable
+  - world
   layers:
   - Default
   - TransparentFX
