@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Types
+{
+    public enum PlantType
+    {
+        Tomate,
+        Lechuga
+    }
+    
+}
+
+
 namespace helpers
 {
     
     public class Click{
-        /************** PRIVATE FUNCTIONS *****************/
+        /************** PUBLIC FUNCTIONS *****************/
         public (GameObject OverObjevct, bool Over) OnOverCheck(){
-            RaycastHit hit = GetHit();
-            GameObject item = hit.collider.gameObject;
+            GameObject item =  GetHit().collider.gameObject;
             if(item != null){
                 if(item.tag == "Selectable" || item.tag == "Drawable"){
                     return (item, true);  
@@ -19,19 +29,17 @@ namespace helpers
         }
 
         public (RaycastHit hit, bool Clicked) OnClickCheck(){
-            RaycastHit hitleido = new RaycastHit();
             if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) ){
-                hitleido = GetHit();
-                return (hitleido, true);
+                return ( GetHit(), true);
             }
-            return (hitleido, false);
+            return (new RaycastHit(), false);
         }
 
 
         /************** PRIVATE FUNCTIONS *****************/
         private RaycastHit GetHit(){
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            RaycastHit hit = new RaycastHit();
             Physics.Raycast(ray, out hit);
             return hit;   
         }
